@@ -1,0 +1,81 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    ext {
+        def appcompat_version = '1.4.1'
+        def core_version = '1.7.0'
+        def material_version = '1.2.1'
+        def constraint_layout_version = '2.0.4'
+
+        def gson_version = '2.8.6'
+        def retrofit_gson_version = '2.9.0'
+        def retrofit_version = '2.9.0'
+        def okhttp_version = '4.9.0'
+        def retrofit_intercept_version = '4.4.1'
+
+        def coroutines_android_version = '1.3.3'
+        def lifecycle_version = '2.2.0'
+        def livedata_version = '2.2.0-rc02'
+
+        def room_version = "2.4.1"
+        def map_version = '18.0.1'
+        def location_version = '19.0.0'
+
+        def permission_version = '6.0.0'
+        def sdp_version = '1.0.6'
+
+        libraries = [
+
+                // Android UI and appcompat
+                "androidx.appcompat:appcompat:$appcompat_version",
+                "androidx.core:core-ktx:$core_version",
+                "com.google.android.material:material:$material_version",
+                "androidx.constraintlayout:constraintlayout:$constraint_layout_version",
+
+
+                // network & serialization
+                "com.google.code.gson:gson:$gson_version",
+                "com.squareup.retrofit2:converter-gson:$retrofit_gson_version",
+                "com.squareup.retrofit2:retrofit:$retrofit_version",
+                "com.squareup.okhttp3:okhttp:$okhttp_version",
+                "com.squareup.okhttp3:logging-interceptor:$retrofit_intercept_version",
+
+                // Coroutines
+                "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_android_version",
+                "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_android_version",
+
+                // ViewModel and LiveData
+                "androidx.lifecycle:lifecycle-extensions:$lifecycle_version",
+                "androidx.lifecycle:lifecycle-livedata-ktx:$livedata_version",
+                "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version",
+
+                //room
+                "androidx.room:room-runtime:$room_version",
+                "androidx.room:room-ktx:$room_version",
+
+                //play libraries
+                "com.google.android.gms:play-services-maps:$map_version",
+                "com.google.android.gms:play-services-location:$location_version",
+
+                //dexter run time permission
+                "com.karumi:dexter:$permission_version",
+                //dimention
+                "com.intuit.sdp:sdp-android:$sdp_version"
+        ]
+
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:7.0.4"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
+        classpath "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.0"
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

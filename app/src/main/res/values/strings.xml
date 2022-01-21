@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">ContactBook</string>
+
+    <string name="txt_welcome_back">Welcome\n<br>Back!</br></string>
+    <string name="hint_user_name">User Name or Email</string>
+    <string name="hint_pass">Password</string>
+    <string name="txt_forgot_pass"><u>Forgot Password?</u></string>
+    <string name="txt_sign_in">Sign In</string>
+    <string name="txt_contact_book">Contact Book</string>
+    <string name="txt_add">Add New</string>
+    <string name="txt_contact">Contact</string>
+    <string name="hint_enter_name">Enter Name</string>
+    <string name="hint_phn_number">Enter Phone Number</string>
+    <string name="txt_set_address">Set address on map</string>
+    <string name="txt_save">Save</string>
+</resources>

@@ -1,0 +1,9 @@
+<resources>
+
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="standard_margin">16dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+    <dimen name="margin_26">26dp</dimen>
+    <dimen name="margin_30">30dp</dimen>
+    <dimen name="margin_50">50dp</dimen>
+</resources>
