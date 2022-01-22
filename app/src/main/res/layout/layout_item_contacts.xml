@@ -21,22 +21,23 @@
             android:layout_height="wrap_content"
             android:background="@drawable/circular_bg"
             android:gravity="center"
+            android:text="@{item.name.substring(0,1)}"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="S">
-
-        </com.sumi.contactbook.views.TextViewNormal>
+            tools:text="S" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/standard_margin"
+            app:layout_constraintBottom_toBottomOf="@id/tvNameFirst"
             app:layout_constraintEnd_toStartOf="@+id/ivContactMap"
             app:layout_constraintStart_toEndOf="@+id/tvNameFirst"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="@id/tvNameFirst">
 
             <com.sumi.contactbook.views.TextViewNormal
                 android:id="@+id/appCompatTextView2"
@@ -69,6 +70,7 @@
             android:id="@+id/ivContactMap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="@dimen/_8sdp"
             android:src="@drawable/ic_contact_map"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

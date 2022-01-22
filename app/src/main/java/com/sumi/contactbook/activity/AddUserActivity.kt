@@ -42,7 +42,6 @@ class AddUserActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMar
     private lateinit var viewModel: ContactViewModel
     private lateinit var repository: RoomRepository
     private var mMap: GoogleMap? = null
-    private var mMarker: Marker? = null
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var startMarker: Marker
 
@@ -74,9 +73,18 @@ class AddUserActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMar
             val phoneNumber = binding.etPhoneNumber.text.toString()
             val address = binding.tvAddress.text.toString()
 
-            val contact = ContactModel(name, phoneNumber, address)
-            viewModel.insert(contact)
-            finish()
+            if (name.isEmpty()) {
+                Toast.makeText(this, getString(R.string.hint_enter_name), Toast.LENGTH_LONG).show()
+            } else if (phoneNumber.isEmpty()) {
+                Toast.makeText(this, getString(R.string.hint_phn_number), Toast.LENGTH_LONG).show()
+            } else if (address.isEmpty()) {
+                Toast.makeText(this, getString(R.string.txt_set_address), Toast.LENGTH_LONG).show()
+            } else {
+                val contact = ContactModel(name, phoneNumber, address)
+                viewModel.insert(contact)
+                finish()
+            }
+
         }
 
         val mapFragment = supportFragmentManager
@@ -96,7 +104,7 @@ class AddUserActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMar
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     if (report?.areAllPermissionsGranted()!!) {
                         getCurrentLocation()
-                    }else{
+                    } else {
                         finish()
                     }
                 }
@@ -116,7 +124,7 @@ class AddUserActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMar
 
         if (!isLocationPermissionGiven()) {
             requestPermissionForLocation()
-        }else{
+        } else {
             getCurrentLocation()
         }
 
@@ -130,38 +138,45 @@ class AddUserActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMar
     }
 
     override fun onMarkerDragEnd(p0: Marker) {
-        Log.e("markermap","MarkerDragEnd")
+        Log.e("markermap", "MarkerDragEnd")
 
         setStartLocation(p0.position.latitude, p0.position.longitude, "")
     }
 
     override fun onMarkerDragStart(p0: Marker) {
-        Log.e("markermap","onMarkerDragStart")
+        Log.e("markermap", "onMarkerDragStart")
     }
 
     fun isLocationPermissionGiven(): Boolean {
 
-        return !(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        return !(ActivityCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ) != PackageManager.PERMISSION_GRANTED)
     }
 
     private fun getCurrentLocation() {
-      val  locationRequest = LocationRequest.create().apply {
+        val locationRequest = LocationRequest.create().apply {
             interval = (10 * 1000).toLong()
             fastestInterval = 2000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            maxWaitTime= 100
+            maxWaitTime = 100
         }
 
         val builder = LocationSettingsRequest.Builder()
         builder.addLocationRequest(locationRequest)
         val locationSettingsRequest = builder.build()
 
-        val result = LocationServices.getSettingsClient(this).checkLocationSettings(locationSettingsRequest)
+        val result =
+            LocationServices.getSettingsClient(this).checkLocationSettings(locationSettingsRequest)
         result.addOnCompleteListener { task ->
             try {
                 val response = task.getResult(ApiException::class.java)
-                if (response!!.locationSettingsStates?.isLocationPresent == true){
+                if (response!!.locationSettingsStates?.isLocationPresent == true) {
                     getLastLocation()
                 }
             } catch (exception: ApiException) {
@@ -173,7 +188,7 @@ class AddUserActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMar
                     } catch (e: ClassCastException) {
                     }
 
-                    LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> { }
+                    LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {}
                 }
             }
         }
@@ -192,9 +207,9 @@ class AddUserActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMar
             }
     }
 
-    private fun setStartLocation(lat: Double, lng: Double, addr: String){
+    private fun setStartLocation(lat: Double, lng: Double, addr: String) {
         var address = "Current address"
-        if (addr.isEmpty()){
+        if (addr.isEmpty()) {
             val gcd = Geocoder(this, Locale.getDefault())
             val addresses: List<Address>
             try {
@@ -208,7 +223,12 @@ class AddUserActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMar
         } else {
             address = addr
         }
-        val icon = BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(this.resources, R.drawable.ic_marker))
+        val icon = BitmapDescriptorFactory.fromBitmap(
+            BitmapFactory.decodeResource(
+                this.resources,
+                R.drawable.ic_marker
+            )
+        )
 
         mMap?.clear()
         startMarker = mMap?.addMarker(
@@ -223,9 +243,7 @@ class AddUserActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMar
             .zoom(17f)
             .build()
         mMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-        Log.e("kjkj","kk${address}")
 
         binding.tvAddress.setText(address)
-       // fromLocationTxt.text = String.format("From: Near %s", address)
     }
 }

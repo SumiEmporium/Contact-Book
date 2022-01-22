@@ -19,6 +19,7 @@ class LoginViewModel(private val repository: RestRepository) : ViewModel() {
 
     fun loginUser(userName: String, password: String) {
         viewModelScope.launch {
+            userData.postValue(Resource.loading(data = null))
             try {
                 val response = repository.loginUser(
                     userName,

@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
         ).get(ContactViewModel::class.java)
 
         viewModel.allContacts.observe(this, {
-            Log.e("kkkk", "" + it)
             binding.rvContact.adapter = ContactAdapter(it)
         })
 

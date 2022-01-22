@@ -3,6 +3,7 @@ package com.sumi.contactbook.activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -64,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this@LoginActivity, "Enter user name!", Toast.LENGTH_LONG).show()
                 } else if (password.isEmpty()) {
                     Toast.makeText(this@LoginActivity, "Enter Password!", Toast.LENGTH_LONG).show()
-                }else {
+                } else {
                     viewModel.loginUser("NybSys", "1234")
                 }
 
@@ -83,13 +84,13 @@ class LoginActivity : AppCompatActivity() {
 
                 Status.LOADING -> {
                     Log.e("Login", "LOADING")
+                    binding.progressLayout.root.visibility = View.VISIBLE
                 }
 
                 Status.SUCCESS -> {
                     when (it.data?.responseCode) {
                         200 -> {
                             val result = it.data.responseObj
-                            Log.e("Login", "SUCCESS$result")
 
                             when (result) {
                                 null -> {
@@ -113,14 +114,17 @@ class LoginActivity : AppCompatActivity() {
                                 }
                             }
                         }
-
+                        else -> {
+                            Toast.makeText(this, "Failed, try again!", Toast.LENGTH_LONG).show()
+                        }
                     }
+                    binding.progressLayout.root.visibility = View.GONE
                 }
 
                 Status.ERROR -> {
-                    Log.e("Login", "ERROR" + it.message)
+                    Toast.makeText(this, "Failed, try again!", Toast.LENGTH_LONG).show()
+                    binding.progressLayout.root.visibility = View.GONE
                 }
-
 
             }
         })
